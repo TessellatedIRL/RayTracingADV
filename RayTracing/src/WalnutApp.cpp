@@ -24,6 +24,13 @@ public:
 		GroundSphere.Albedo = { 0.2f, 0.3f, 1.0f };
 		GroundSphere.Roughness = 0.1f;
 		GroundSphere.Metallic = 0.0f;
+
+		Material& SubjectSphere2 = m_scene.Materials.emplace_back();
+		SubjectSphere2.Albedo = { 0.8f, 0.5f, 0.2f };
+		SubjectSphere2.Roughness = 0.1f;
+		SubjectSphere2.Metallic = 0.0f;
+		SubjectSphere2.EmissionColour = SubjectSphere2.Albedo;
+		SubjectSphere2.EmissionPower = 2.0f;
 		
 		{
 			Sphere sphere;
@@ -32,6 +39,15 @@ public:
 			sphere.MaterialIndex = 0;
 			m_scene.Spheres.push_back(sphere);
 		}
+
+		{
+			Sphere sphere;
+			sphere.Position = { 2.0f, 0.0f, 0.0f };
+			sphere.Radius = 1.0f;
+			sphere.MaterialIndex = 2;
+			m_scene.Spheres.push_back(sphere);
+		}
+
 		{
 			Sphere sphere;
 			sphere.Position = { 0.0f, -101.0f, 0.0f };
@@ -82,8 +98,10 @@ public:
 			
 			Material& material = m_scene.Materials[i];
 			ImGui::ColorEdit3("Albedo", glm::value_ptr(material.Albedo));
-			ImGui::DragFloat("Roughness", &material.Roughness, 0.05f);
-			ImGui::DragFloat("Metallic", &material.Metallic, 0.05f);
+			ImGui::DragFloat("Roughness", &material.Roughness, 0.05f, 0.0f, 1.0f);
+			ImGui::DragFloat("Metallic", &material.Metallic, 0.05f, 0.0f, 1.0f);
+			ImGui::ColorEdit3("Emission Colour", glm::value_ptr(material.EmissionColour));
+			ImGui::DragFloat("Emission Power", &material.EmissionPower, 0.05f, 0.0f, FLT_MAX);
 
 			ImGui::Separator();
 			ImGui::PopID();
